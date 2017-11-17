@@ -1,0 +1,1 @@
+This repo houses the backend REST service and database connection for the Android app at [this repo](https://github.com/vincentdh1993/HousingApp)
