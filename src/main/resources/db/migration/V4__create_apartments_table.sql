@@ -4,5 +4,6 @@ CREATE TABLE apartments (
   description text,
   squareFeet INTEGER,
   roomCount INTEGER,
-  price money
+  price money,
+  landlordID INT REFERENCES users(userID)
 );
