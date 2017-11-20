@@ -6,13 +6,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@Table(name = "apartments")
 public class Apartment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "apartments_seq_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "apartments_seq_gen")
     @SequenceGenerator(name = "apartments_seq_gen", sequenceName = "apartments_apartmentid_seq")
     @NotNull
-    private Long apartmentID;
+    private Integer apartmentID;
 
     private String address;
 
@@ -20,6 +21,7 @@ public class Apartment {
 
     private Integer squareFeet;
 
+    @Column(name = "roomCount")
     private Integer roomCount;
 
     private BigDecimal price;
@@ -33,7 +35,8 @@ public class Apartment {
     @JoinColumn(name = "landlordID")
     private User landlord;
 
-    private List<String> pictures;
+    @OneToMany(mappedBy = "belongingTo") //TODO: ADD MAPPED BY
+    private List<Picture> pictures;
 
     public Apartment() {
 

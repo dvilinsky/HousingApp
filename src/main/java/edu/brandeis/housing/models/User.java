@@ -7,13 +7,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq_gen")
-    @SequenceGenerator(name = "users_seq_gen", sequenceName = "users_id_seq")
+    @SequenceGenerator(name = "users_seq_gen", sequenceName = "users_userid_seq")
     @NotNull
-    private Long userID;
+    private Integer userID;
 
     private String name;
 
@@ -30,8 +31,8 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "users_landlords",
-            joinColumns = @JoinColumn(name = "tenant", referencedColumnName = "userID"),
-            inverseJoinColumns = @JoinColumn(name = "landlord", referencedColumnName = "userID")
+            joinColumns = @JoinColumn(name = "userID"), //tenant
+            inverseJoinColumns = @JoinColumn(name = "landlordID") //landlord
     )
     private List<User> myLandlords;
 
@@ -48,8 +49,8 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "users_apartments",
-            joinColumns = @JoinColumn(name = "user", referencedColumnName = "userID"),
-            inverseJoinColumns = @JoinColumn(name = "apartment", referencedColumnName = "apartmentID")
+            joinColumns = @JoinColumn(name = "userID", referencedColumnName = "userID"),
+            inverseJoinColumns = @JoinColumn(name = "apartmentID", referencedColumnName = "apartmentID")
     )
     private List<Apartment> apartments;
 

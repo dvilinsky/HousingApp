@@ -1,0 +1,1 @@
+ALTER TABLE apartments ALTER COLUMN price TYPE NUMERIC;

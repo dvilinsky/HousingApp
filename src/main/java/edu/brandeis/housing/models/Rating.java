@@ -5,15 +5,16 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "ratings")
 public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_seq_gen")
     @SequenceGenerator(name = "rating_seq_gen", sequenceName = "ratings_ratingid_seq")
     @NotNull
-    private Long ratingID;
+    private Integer ratingID;
 
-    private Integer stars;
+    private Integer starCount;
 
     private String content;
 
