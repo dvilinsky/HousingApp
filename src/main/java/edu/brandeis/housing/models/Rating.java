@@ -24,4 +24,8 @@ public class Rating {
 
     @OneToMany(mappedBy = "parent")
     private List<Comment> comments;
+
+    @ManyToOne
+    @JoinColumn(name = "apartmentID")
+    private Apartment ratingFor;
 }

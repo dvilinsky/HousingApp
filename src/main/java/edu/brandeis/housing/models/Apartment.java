@@ -35,8 +35,11 @@ public class Apartment {
     @JoinColumn(name = "landlordID")
     private User landlord;
 
-    @OneToMany(mappedBy = "belongingTo") //TODO: ADD MAPPED BY
+    @OneToMany(mappedBy = "belongingTo")
     private List<Picture> pictures;
+
+    @OneToMany(mappedBy = "ratingFor")
+    private List<Rating> ratings;
 
     public Apartment() {
 
