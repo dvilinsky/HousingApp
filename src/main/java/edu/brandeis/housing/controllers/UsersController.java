@@ -4,6 +4,7 @@ import edu.brandeis.housing.models.Rating;
 import edu.brandeis.housing.models.User;
 import edu.brandeis.housing.repository.RatingRepository;
 import edu.brandeis.housing.repository.UserRepository;
+import edu.brandeis.housing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +17,29 @@ import java.util.List;
 public class UsersController {
     private UserRepository userRepository;
     private RatingRepository ratingRepository;
+    private UserService userService;
 
     @Autowired
-    public UsersController(UserRepository userRepository, RatingRepository ratingRepository) {
+    public UsersController(UserRepository userRepository, RatingRepository ratingRepository, UserService userService) {
         this.userRepository = userRepository;
         this.ratingRepository = ratingRepository;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/users/{userId}", produces = "application/json")
     public ResponseEntity<User> getUserProfile(@PathVariable String userId) {
-        //TODO: IMPLEMENT SECURITY, MAKE SURE RESULTS CHANGE IF IT IS YOUR PROFILE OR SOMEONE ELSES!
+        //Ideally this might return something different if it's your profile or not, but that's not happening
         User u = this.userRepository.findOne(Integer.parseInt(userId));
         return new ResponseEntity<User>(u, HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/users/", produces = "application/json")
     @RequestMapping(value = "/users/", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<User> createAccount(@RequestBody User newUser) {
-        User u = userRepository.save(newUser);
+        User userExists = userRepository.findByUserName(newUser.getUserName());
+        if (userExists != null) {
+            return new ResponseEntity<User>(HttpStatus.CONFLICT); //user already exists
+        }
+        User u = userService.saveUser(newUser);
         return new ResponseEntity<User>(u, HttpStatus.OK);
     }
 
@@ -58,7 +64,7 @@ public class UsersController {
         return new ResponseEntity<User>(landlord, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users/")
+    @GetMapping(value = "/users/search")
     public ResponseEntity<List<User>> search(@RequestParam String name) {
         List<User> results =  this.userRepository.findUserByName(name);
         return new ResponseEntity<List<User>>(results, HttpStatus.OK);

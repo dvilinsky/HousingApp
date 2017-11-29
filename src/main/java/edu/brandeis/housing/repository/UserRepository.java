@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT u FROM User u WHERE lower(u.name) LIKE CONCAT('%', LOWER(:name), '%' ) ")
     List<User> findUserByName(@Param("name") String name);
 
+    User findByUserName(String userName);
 }
