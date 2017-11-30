@@ -33,7 +33,7 @@ public class UsersController {
         return new ResponseEntity<User>(u, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/users", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<User> createAccount(@RequestBody User newUser) {
         User userExists = userRepository.findByUserName(newUser.getUserName());
         if (userExists != null) {
@@ -68,5 +68,17 @@ public class UsersController {
     public ResponseEntity<List<User>> search(@RequestParam String name) {
         List<User> results =  this.userRepository.findUserByName(name);
         return new ResponseEntity<List<User>>(results, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{userId}/ratingsWritten")
+    public ResponseEntity<List<Rating>> findRatingsUserHasWritten(@PathVariable String userId) {
+        List<Rating> results = this.userRepository.findRatingsUserHasWritten(Integer.parseInt(userId));
+        return new ResponseEntity<List<Rating>>(results, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{userId}/ratingsAbout")
+    public ResponseEntity<List<Rating>> findRatingsAboutUser(@PathVariable String userId) {
+        List<Rating> results = this.userRepository.findRatingsAboutUser(Integer.parseInt(userId));
+        return new ResponseEntity<List<Rating>>(results, HttpStatus.OK);
     }
 }

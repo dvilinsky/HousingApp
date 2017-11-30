@@ -32,6 +32,7 @@ public class ApartmentsController {
     public ResponseEntity<Apartment> addApartment(@RequestBody Apartment newApartment, @RequestParam String landlordId) {
         //This is entirely dependent on the client to send in the JSON correctly. Oh well,
         //deadlines are looming
+        System.out.println(newApartment);
         User landlord = this.userRepository.findOne(Integer.parseInt(landlordId));
         if (landlord == null) {
             return new ResponseEntity<Apartment>(HttpStatus.NOT_FOUND);
@@ -63,6 +64,7 @@ public class ApartmentsController {
         return new ResponseEntity<Apartment>(a, HttpStatus.OK);
     }
 
+    @GetMapping(value = "apartments")
     public ResponseEntity<List<Apartment>> search(@RequestParam String address) {
         //Possible sql injecton? who cares?? lol
         if (address.isEmpty()) {
@@ -70,5 +72,11 @@ public class ApartmentsController {
         }
         List<Apartment> results = this.apartmentRepository.findApartmentByAddress(address);
         return new ResponseEntity<List<Apartment>>(results, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/apartments/{apartmentId}/ratings")
+    public ResponseEntity<List<Rating>> getRatings(@PathVariable String apartmentId) {
+        List<Rating> results = this.apartmentRepository.findAptRating(Integer.parseInt(apartmentId));
+        return new ResponseEntity<List<Rating>>(results, HttpStatus.OK);
     }
 }

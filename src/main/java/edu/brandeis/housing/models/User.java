@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@UUID")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@UUID")
 public class User implements Serializable{
 
     @Id
@@ -56,6 +56,7 @@ public class User implements Serializable{
             inverseJoinColumns = @JoinColumn(name = "apartmentID", referencedColumnName = "apartmentID")
     )
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userID")
+    @JsonBackReference
     private List<Apartment> apartments;
 
     @OneToMany(mappedBy = "landlord")
