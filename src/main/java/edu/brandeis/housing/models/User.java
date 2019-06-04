@@ -22,12 +22,11 @@ public class User implements Serializable{
 
     private String userName;
 
-    private String profilePictureUrl; //TODO: should this be some sort of URL object? Nah, we don't give a shit about the validity of it
+    private String profilePictureUrl; //TODO: Should be part of some URL object to check validity
 
     private boolean isTenant;
 
     //Describes a history of landlords, not current landlord
-    //TODO: When does this ever get updated???
     @ManyToMany
     @JoinTable(
             name = "users_landlords",

@@ -28,7 +28,7 @@ public class UsersController {
 
     @GetMapping(value = "/users/{userId}", produces = "application/json")
     public ResponseEntity<User> getUserProfile(@PathVariable String userId) {
-        //Ideally this might return something different if it's your profile or not, but that's not happening
+		//TODO: Toggle what is returned based on if it is your profile or not 
         User u = this.userRepository.findOne(Integer.parseInt(userId));
         return new ResponseEntity<User>(u, HttpStatus.OK);
     }

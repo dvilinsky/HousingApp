@@ -30,8 +30,7 @@ public class ApartmentsController {
 
     @PostMapping(value = "/apartments", produces = "application/json")
     public ResponseEntity<Apartment> addApartment(@RequestBody Apartment newApartment, @RequestParam String landlordId) {
-        //This is entirely dependent on the client to send in the JSON correctly. Oh well,
-        //deadlines are looming
+        //TODO: Validate JSON
         System.out.println(newApartment);
         User landlord = this.userRepository.findOne(Integer.parseInt(landlordId));
         if (landlord == null) {
